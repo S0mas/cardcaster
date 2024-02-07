@@ -8,4 +8,7 @@ public:
     AncestralRecall();
 
     void execute(Engine& engine) override;
+
+private:
+    void initImpl() override;
 };

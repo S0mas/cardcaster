@@ -8,4 +8,7 @@ public:
     Hullbreacher();
 
     void execute(Engine& engine) override;
+
+private:
+    void initImpl() override;
 };
