@@ -21,6 +21,7 @@ public:
 
     void proceed();
 
+    void handleTrigger(const Trigger& trigger);
 private:
     std::vector<Player> players_;
     std::vector<std::unique_ptr<Card>> cards_;

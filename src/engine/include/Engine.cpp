@@ -3,6 +3,11 @@
 #include "engine.hpp"
 #include "../src/cards/AncestralRecall.hpp"
 #include "../src/cards/Hullbreacher.hpp"
+#include "../src/triggers/Cast.hpp"
+#include "../src/triggers/EntersTheBattlefield.hpp"
+#include "../src/triggers/EntersTheGraveyard.hpp"
+#include "../src/triggers/LeavesTheBattlefield.hpp"
+#include "../src/triggers/LeavesTheGraveyard.hpp"
 
 #include <iostream>
 #include <memory>
@@ -77,4 +82,12 @@ Player& Engine::activePlayer()
 void Engine::proceed()
 {
 
+}
+
+void Engine::handleTrigger(const Trigger& trigger)
+{
+    for(const auto& card : cards_)
+    {
+        card->resolveTrigger(trigger, *this);
+    }
 }
