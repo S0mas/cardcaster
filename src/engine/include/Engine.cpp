@@ -77,8 +77,6 @@ Player& Engine::activePlayer()
     return players_.at(0);
 }
 
-
-
 void Engine::proceed()
 {
 
@@ -91,3 +89,42 @@ void Engine::handleTrigger(const Trigger& trigger)
         card->resolveTrigger(trigger, *this);
     }
 }
+
+/////
+/// \brief Operations on cards
+///
+///
+
+void Engine::cast(Card& card)
+{
+    if(requestToPayCost(card.manaCost()))
+    {
+        card.resolveTrigger(Cast{card}, *this);
+    }
+    else
+    {
+        cancelCast();
+    }
+}
+
+void Engine::entersTheBattlefield(Card& card)
+{
+    card.resolveTrigger(EntersTheBattlefield{card}, *this);
+}
+
+void Engine::putIntoTheGraveyard(Card& card)
+{
+    card.resolveTrigger(EntersTheGraveyard{card}, *this);
+}
+
+void Engine::leavesTheBattlefield(Card& card)
+{
+    card.resolveTrigger(LeavesTheBattlefield{card}, *this);
+}
+
+void Engine::leavesTheGraveyard(Card& card)
+{
+    card.resolveTrigger(LeavesTheGraveyard{card}, *this);
+}
+
+/////

@@ -20,6 +20,7 @@ public:
 
     void init();
     void reset();
+    const ManaCost& manaCost() const;
 
     void resolveTrigger(const Trigger& trigger, Engine& engine);
 
