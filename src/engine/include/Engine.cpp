@@ -2,6 +2,7 @@
 
 #include "engine.hpp"
 #include "../src/cards/AncestralRecall.hpp"
+#include "../src/cards/EmrakulTheAeonsThorn.hpp"
 #include "../src/cards/Hullbreacher.hpp"
 #include "../src/triggers/Cast.hpp"
 #include "../src/triggers/EntersTheBattlefield.hpp"
@@ -19,6 +20,7 @@ Engine::Engine()
 
     cards_.push_back(std::make_unique<AncestralRecall>());
     cards_.push_back(std::make_unique<Hullbreacher>());
+    cards_.push_back(std::make_unique<EmrakulTheAeonsThorn>());
     cards_.back()->execute(*this);
 }
 
