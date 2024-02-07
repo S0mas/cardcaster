@@ -18,7 +18,13 @@ std::vector<Color> Card::colors() const
     return colors_;
 }
 
-void Card::resetToInitialProperties()
+void Card::init()
 {
+    initImpl();
     colors_ = mana_cost_.color();
+}
+
+void Card::reset()
+{
+    init();
 }

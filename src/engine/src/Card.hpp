@@ -14,8 +14,12 @@ public:
 
     std::vector<Color> colors() const;
 
-    virtual void resetToInitialProperties();
+    void init();
+    void reset();
     virtual void execute(Engine& engine) = 0;
+
+    virtual void initImpl() = 0;
+
 protected:
     std::string name_;
     std::string description_;
