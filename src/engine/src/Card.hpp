@@ -1,5 +1,6 @@
 #pragma once
 #include "ManaCost.hpp"
+#include "TriggeredAbility.hpp"
 
 #include <string>
 
@@ -16,6 +17,9 @@ public:
 
     void init();
     void reset();
+
+    void resolveTrigger(const Trigger& trigger, Engine& engine);
+
     virtual void execute(Engine& engine) = 0;
 
     virtual void initImpl() = 0;
@@ -26,4 +30,5 @@ protected:
     std::string image_source_;
     std::vector<Color> colors_;
     ManaCost mana_cost_;
+    TriggeredAbilities triggered_abilities_;
 };

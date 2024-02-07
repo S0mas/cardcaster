@@ -28,3 +28,8 @@ void Card::reset()
 {
     init();
 }
+
+void Card::resolveTrigger(const Trigger& trigger, Engine& engine)
+{
+    triggered_abilities_(trigger, engine);
+}
