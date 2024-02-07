@@ -112,7 +112,7 @@ void Engine::entersTheBattlefield(Card& card)
     card.resolveTrigger(EntersTheBattlefield{card}, *this);
 }
 
-void Engine::putIntoTheGraveyard(Card& card)
+void Engine::entersTheGraveyard(Card& card)
 {
     card.resolveTrigger(EntersTheGraveyard{card}, *this);
 }

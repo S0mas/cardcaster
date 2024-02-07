@@ -34,7 +34,7 @@ public:
 
     void cast(Card& card);
     void entersTheBattlefield(Card& card);
-    void putIntoTheGraveyard(Card& card);
+    void entersTheGraveyard(Card& card);
     void leavesTheBattlefield(Card& card);
     void leavesTheGraveyard(Card& card);
 
