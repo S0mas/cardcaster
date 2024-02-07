@@ -21,6 +21,8 @@ file(GLOB_RECURSE SOURCES
     src/turn/phases/*.hpp
     src/turn/phases/steps/*.cpp
     src/turn/phases/steps/*.hpp
+    src/triggers/*.cpp
+    src/triggers/*.hpp
     include/*.cpp)
 
 #CREATING EXEC AND LINK IT WITH LIBS AND MANUALLY CREATED SOURCES ###############
