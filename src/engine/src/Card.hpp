@@ -2,9 +2,12 @@
 #include "ManaCost.hpp"
 #include "TriggeredAbility.hpp"
 
+#include <functional>
+#include <optional>
 #include <string>
 
 class Engine;
+class Player;
 
 class Card
 {
@@ -31,4 +34,6 @@ protected:
     std::vector<Color> colors_;
     ManaCost mana_cost_;
     TriggeredAbilities triggered_abilities_;
+    std::optional<std::reference_wrapper<Player>> controller_;
+    std::optional<std::reference_wrapper<Player>> owner_;
 };
