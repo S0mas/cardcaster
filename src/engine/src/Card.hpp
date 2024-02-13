@@ -28,6 +28,12 @@ public:
 
     virtual void initImpl() = 0;
 
+    //dbg
+    void setController(const Player& player)
+    {
+        controller_ = player;
+    }
+
 protected:
     std::string name_;
     std::string description_;
@@ -35,6 +41,6 @@ protected:
     std::vector<Color> colors_;
     ManaCost mana_cost_;
     TriggeredAbilities triggered_abilities_;
-    std::optional<std::reference_wrapper<Player>> controller_;
-    std::optional<std::reference_wrapper<Player>> owner_;
+    std::optional<std::reference_wrapper<const Player>> controller_;
+    std::optional<std::reference_wrapper<const Player>> owner_;
 };
