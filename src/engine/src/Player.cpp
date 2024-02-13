@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-Player::Player() {}
+Player::Player(std::string&& name) : name_{name} {}
 
 void Player::draw(const int count)
 {
@@ -20,5 +20,16 @@ void Player::draw(const int count)
         hand_.push_back(std::move(library_.back()));
         library_.pop_back();
     }
+}
+
+int Player::cardDrawnThisDrawStep() const
+{
+    return 1;
+}
+
+
+bool Player::isOpponent(const Player& player) const
+{
+    return (*this) != player;
 }
 

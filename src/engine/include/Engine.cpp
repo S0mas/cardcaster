@@ -15,8 +15,8 @@
 
 Engine::Engine()
 {
-    players_.push_back({});
-    players_.push_back({});
+    players_.push_back({"P1"});
+    players_.push_back({"P2"});
 
     cards_.push_back(std::make_unique<AncestralRecall>());
     cards_.push_back(std::make_unique<Hullbreacher>());
