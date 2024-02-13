@@ -1,31 +1,18 @@
 #include "Action.hpp"
 
-Action::Action()
+Action::Action(const bool is_using_stack)
+    : is_using_stack_{is_using_stack}
 {
 
 }
 
 void Action::execute(Engine& engine)
 {
-    for(auto const& trigger : beforeActrionTriggers_)
-    {
-        trigger();
-    }
 
-    if(insteadOfActrionTriggers_.empty())
-    {
-        impl(engine);
+}
 
-        for(auto const& trigger : afterActrionTriggers_)
-        {
-            trigger();
-        }
-    }
-    else
-    {
-        for(auto const& trigger : insteadOfActrionTriggers_)
-        {
-            trigger();
-        }
-    }
+
+bool Action::isUsingStack() const
+{
+    return is_using_stack_;
 }

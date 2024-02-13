@@ -1,5 +1,7 @@
 #pragma once
 
+#include "triggers/Trigger.hpp"
+
 #include <functional>
 #include <string>
 #include <vector>
@@ -9,18 +11,16 @@ class Engine;
 class Action
 {
 public:
-    Action();
+    Action(bool is_using_stack = true);
     virtual ~Action() = default;
 
     void execute(Engine& engine);
 
+    bool isUsingStack() const;
+    virtual std::vector<Trigger> createTriggers() const = 0;
 private:
     virtual void impl(Engine& engine) = 0;
 
-    std::vector<std::function<void()>> beforeActrionTriggers_;
-    std::vector<std::function<void()>> insteadOfActrionTriggers_;
-    std::vector<std::function<void()>> afterActrionTriggers_;
-
-
+    bool is_using_stack_;
     int source_;
 };
