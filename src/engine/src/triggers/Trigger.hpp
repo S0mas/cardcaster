@@ -1,37 +1,34 @@
 #pragma once
+#include "TriggerData.hpp"
 
-class Trigger
+#include <memory>
+
+class Trigger final
 {
 public:
-    enum class Type
-    {
-        Cast = 0,
-        EntersTheBattlefield,
-        LeavesTheBattlefield,
-        EntersTheGraveyard,
-        LeavesTheGraveyard,
-        Draw
-    };
-
-    static Trigger fromTriggerType(Type type);
-
-protected:
-    Trigger(Type type);
-    Type type() const;
-
-    operator Type() const { return type_; }
-    friend bool operator<(const Trigger& lhs, const Trigger& rhs);
+    template<typename TriggerDataType, typename... Args>
+    static Trigger createTrigger(Args&& ...args);
+    template<typename TriggerDataType>
+    TriggerDataType data() const;
+    TriggerData::Type type() const;
+private:
+    Trigger() = default;
 
 private:
-    Type type_;
+    std::shared_ptr<TriggerData> data_;
 };
 
-inline bool operator<(const Trigger& lhs, const Trigger& rhs)
+template<typename TriggerDataType, typename... Args>
+Trigger Trigger::createTrigger(Args&& ...args)
 {
-    return lhs.type_ < rhs.type_;
+    Trigger t;
+    t.data_ = std::make_shared<TriggerDataType>(std::move(args)...);
+    return t;
 }
 
-inline bool operator==(const Trigger& lhs, const Trigger& rhs)
+template<typename TriggerDataType>
+TriggerDataType Trigger::data() const
 {
-    return !(lhs < rhs) && !(rhs < lhs);
+    auto data = data_.get();
+    return dynamic_cast<const TriggerDataType&>(*data);
 }

@@ -1,28 +1,28 @@
 #include "TriggeredAbility.hpp"
 
-TriggeredAbility::TriggeredAbility(Trigger&& trigger, std::function<void(Engine&)>&& ability)
-    : triggers_{trigger}
-    , ability_(std::move(ability)) {}
+TriggeredAbility::TriggeredAbility(TriggerData::Type trigger_type, std::function<void(Engine&)>&& ability)
+    : trigger_types_{trigger_type}
+    , ability_{std::move(ability)}
+{
+}
 
-TriggeredAbility::TriggeredAbility(std::vector<Trigger>&& triggers, std::function<void(Engine&)>&& ability)
-    : triggers_{triggers}
-    , ability_(std::move(ability)) {}
-
-TriggeredAbility::TriggeredAbility(Trigger::Type trigger, std::function<void(Engine&)>&& ability)
-    : TriggeredAbility(Trigger::fromTriggerType(trigger), std::move(ability)) {}
-
+TriggeredAbility::TriggeredAbility(std::vector<TriggerData::Type>&& trigger_types, std::function<void(Engine&)>&& ability)
+    : trigger_types_{std::move(trigger_types)}
+    , ability_(std::move(ability))
+{
+}
 
 void TriggeredAbility::operator()(const Trigger& trigger, Engine& engine) const
 {
-    if(testTrigger(trigger))
+    if(testTrigger(trigger.type()))
     {
         ability_(engine);
     }
 }
 
-bool TriggeredAbility::testTrigger(const Trigger& trigger) const
+bool TriggeredAbility::testTrigger(const TriggerData::Type trigger_type) const
 {
-    return std::ranges::find(triggers_, trigger) != triggers_.cend();
+    return std::ranges::find(trigger_types_, trigger_type) != trigger_types_.cend();
 }
 
 ////
@@ -37,7 +37,7 @@ void TriggeredAbilities::operator()(const Trigger& trigger, Engine& engine) cons
     }
 }
 
-void TriggeredAbilities::add_ability(TriggeredAbility&& ability)
+void TriggeredAbilities::addAbility(TriggeredAbility&& ability)
 {
     abilities_.push_back(std::move(ability));
 }

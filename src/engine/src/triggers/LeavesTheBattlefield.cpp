@@ -1,7 +1,7 @@
 #include "LeavesTheBattlefield.hpp"
 
 LeavesTheBattlefield::LeavesTheBattlefield(const Card& card)
-    : Trigger(Trigger::Type::LeavesTheBattlefield)
+    : TriggerData(TriggerData::Type::LeavesTheBattlefield)
     , card_{card}
 {
 }

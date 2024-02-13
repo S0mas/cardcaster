@@ -10,16 +10,16 @@ class Engine;
 class TriggeredAbility final
 {
 public:
-    TriggeredAbility(Trigger&& trigger, std::function<void(Engine&)>&& ability);
-    TriggeredAbility(std::vector<Trigger>&& triggers, std::function<void(Engine&)>&& ability);
-    TriggeredAbility(Trigger::Type trigger, std::function<void(Engine&)>&& ability);
+    TriggeredAbility(TriggerData::Type trigger_type, std::function<void(Engine&)>&& ability);
+    TriggeredAbility(std::vector<TriggerData::Type>&& trigger_types, std::function<void(Engine&)>&& ability);
+
     void operator()(const Trigger&, Engine& engine) const;
 
 private:
-    bool testTrigger(const Trigger& trigger) const;
+    bool testTrigger(TriggerData::Type trigger_type) const;
 
 private:
-    std::vector<Trigger> triggers_;
+    std::vector<TriggerData::Type> trigger_types_;
     std::function<void(Engine&)> ability_;
 };
 
@@ -29,7 +29,7 @@ class TriggeredAbilities final
 public:
     void operator()(const Trigger&, Engine& engine) const;
 
-    void add_ability(TriggeredAbility&& ability);
+    void addAbility(TriggeredAbility&& ability);
 private:
     std::vector<TriggeredAbility> abilities_;
 };

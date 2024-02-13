@@ -17,5 +17,5 @@ void EmrakulTheAeonsThorn::initImpl()
     mana_cost_.setBlueCost(1);
     mana_cost_.setGenericCost(2);
 
-    triggered_abilities_.add_ability({Cast{*this}, [](Engine&){/*take another turn*/}});
+    triggered_abilities_.addAbility({TriggerData::Type::Cast, [](Engine&){/*take another turn*/}});
 }

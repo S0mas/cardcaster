@@ -1,15 +1,17 @@
 #pragma once
 
-#include "../Action.hpp"
+#include "TurnBasedAction.hpp"
+#include "../triggers/Trigger.hpp"
+#include "../Player.hpp"
 
-class Draw : public Action
+class Draw : public TurnBasedAction
 {
 public:
-    Draw();
+    Draw(const Player& player);
 
     void impl(Engine& engine) override;
 
+    std::vector<Trigger> createTriggers() const override;
 
-
-    int player_;
+    const Player& player_;
 };

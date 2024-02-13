@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Trigger.hpp"
+#include "TriggerData.hpp"
 
 class Card;
 
-class Cast : public Trigger
+class Cast : public TriggerData
 {
 public:
     Cast(const Card& card);

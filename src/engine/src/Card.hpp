@@ -1,6 +1,7 @@
 #pragma once
 #include "ManaCost.hpp"
 #include "TriggeredAbility.hpp"
+#include "TriggerReplacementEffect.hpp"
 
 #include <functional>
 #include <optional>
@@ -22,7 +23,8 @@ public:
     void reset();
     const ManaCost& manaCost() const;
 
-    void resolveTrigger(const Trigger& trigger, Engine& engine);
+    Trigger resolveTriggerReplacementEffects(const Trigger& trigger, Engine& engine);
+    void resolveTriggeredAbbilities(const Trigger& trigger, Engine& engine);
 
     virtual void execute(Engine& engine) = 0;
 
@@ -40,6 +42,7 @@ protected:
     std::string image_source_;
     std::vector<Color> colors_;
     ManaCost mana_cost_;
+    TriggerReplacementEffects trigger_replacement_effects_;
     TriggeredAbilities triggered_abilities_;
     std::optional<std::reference_wrapper<const Player>> controller_;
     std::optional<std::reference_wrapper<const Player>> owner_;

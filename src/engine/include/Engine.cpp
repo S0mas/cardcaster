@@ -9,7 +9,7 @@
 #include "../src/triggers/EntersTheGraveyard.hpp"
 #include "../src/triggers/LeavesTheBattlefield.hpp"
 #include "../src/triggers/LeavesTheGraveyard.hpp"
-
+#include "../src/actions/Draw.hpp"
 #include <iostream>
 #include <memory>
 
@@ -19,9 +19,17 @@ Engine::Engine()
     players_.push_back({"P2"});
 
     cards_.push_back(std::make_unique<AncestralRecall>());
-    cards_.push_back(std::make_unique<Hullbreacher>());
     cards_.push_back(std::make_unique<EmrakulTheAeonsThorn>());
-    cards_.back()->execute(*this);
+    cards_.push_back(std::make_unique<Hullbreacher>());
+
+    for(const auto& card : cards_)
+    {
+        card->initImpl();
+    }
+
+    cards_.back()->setController(players_.at(1));
+
+    resolveDrawStep();
 }
 
 Player& Engine::requestToTargetAPlayer(Player& playerToMakeAChoice)
@@ -84,12 +92,56 @@ void Engine::proceed()
 
 }
 
-void Engine::handleTrigger(const Trigger& trigger)
+void Engine::resolveTrigger(const Trigger& trigger)
 {
+    Trigger replacedTrigger(trigger);
     for(const auto& card : cards_)
     {
-        card->resolveTrigger(trigger, *this);
+        replacedTrigger = card->resolveTriggerReplacementEffects(trigger, *this);
     }
+    for(const auto& card : cards_)
+    {
+        card->resolveTriggeredAbbilities(replacedTrigger, *this);
+    }
+}
+
+void Engine::pushTriggerToStack(const Trigger& trigger)
+{
+    triggers_stack_.push(trigger);
+}
+
+void Engine::pushTriggersToStack(const std::vector<Trigger>& triggers)
+{
+    for(const auto& trigger : triggers)
+    {
+        pushTriggerToStack(trigger);
+    }
+}
+
+bool Engine::isDrawStepNow() const
+{
+    return true;
+}
+
+void Engine::resolveAction(const Action& action)
+{
+    if(action.isUsingStack())
+    {
+        pushTriggersToStack(action.createTriggers());
+    }
+    else
+    {
+        for(const auto& trigger : action.createTriggers())
+        {
+            resolveTrigger(trigger);
+        }
+    }
+}
+
+void Engine::resolveDrawStep()
+{
+    Draw draw_step_action(activePlayer());
+    resolveAction(draw_step_action);
 }
 
 /////
@@ -101,7 +153,7 @@ void Engine::cast(Card& card)
 {
     if(requestToPayCost(card.manaCost()))
     {
-        card.resolveTrigger(Cast{card}, *this);
+        card.resolveTriggeredAbbilities(Trigger::createTrigger<Cast>(card), *this);
     }
     else
     {
@@ -111,22 +163,22 @@ void Engine::cast(Card& card)
 
 void Engine::entersTheBattlefield(Card& card)
 {
-    card.resolveTrigger(EntersTheBattlefield{card}, *this);
+    card.resolveTriggeredAbbilities(Trigger::createTrigger<EntersTheBattlefield>(card), *this);
 }
 
 void Engine::entersTheGraveyard(Card& card)
 {
-    card.resolveTrigger(EntersTheGraveyard{card}, *this);
+    card.resolveTriggeredAbbilities(Trigger::createTrigger<EntersTheGraveyard>(card), *this);
 }
 
 void Engine::leavesTheBattlefield(Card& card)
 {
-    card.resolveTrigger(LeavesTheBattlefield{card}, *this);
+    card.resolveTriggeredAbbilities(Trigger::createTrigger<LeavesTheBattlefield>(card), *this);
 }
 
 void Engine::leavesTheGraveyard(Card& card)
 {
-    card.resolveTrigger(LeavesTheGraveyard{card}, *this);
+    card.resolveTriggeredAbbilities(Trigger::createTrigger<LeavesTheGraveyard>(card), *this);
 }
 
 /////

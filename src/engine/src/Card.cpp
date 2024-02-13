@@ -34,7 +34,12 @@ const ManaCost& Card::manaCost() const
     return mana_cost_;
 }
 
-void Card::resolveTrigger(const Trigger& trigger, Engine& engine)
+Trigger Card::resolveTriggerReplacementEffects(const Trigger& trigger, Engine& engine)
+{
+    return trigger_replacement_effects_(trigger, engine);
+}
+
+void Card::resolveTriggeredAbbilities(const Trigger& trigger, Engine& engine)
 {
     triggered_abilities_(trigger, engine);
 }

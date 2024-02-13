@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Trigger.hpp"
+#include "TriggerData.hpp"
 
 class Card;
 
-class LeavesTheGraveyard : public Trigger
+class LeavesTheGraveyard : public TriggerData
 {
 public:
     LeavesTheGraveyard(const Card& card);

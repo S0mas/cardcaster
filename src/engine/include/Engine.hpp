@@ -4,7 +4,10 @@
 #include "../src/Player.hpp"
 #include "../src/turn/Turn.hpp"
 
+#include <stack>
 #include <vector>
+
+class Action;
 
 class Engine
 {
@@ -14,10 +17,9 @@ public:
     Player& requestToTargetAPlayer(Player& playerToMakeAChoice);
     Player& requestToTargetAPlayer();
     void requestToDraw(Player& player, int count);
+    void requestToPassPriority();
 
     Player& activePlayer();
-
-    void resolveAction();
 
     void proceed();
 
@@ -25,7 +27,13 @@ public:
     bool requestToPayCost(const ManaCost& cost) { return true; }
     void cancelCast() {}
 
-    void handleTrigger(const Trigger& trigger);
+    void resolveTrigger(const Trigger& trigger);
+    void pushTriggerToStack(const Trigger& trigger);
+    void pushTriggersToStack(const std::vector<Trigger>& triggers);
+
+    bool isDrawStepNow() const;
+    void resolveAction(const Action& action);
+    void resolveDrawStep();
 
     /////
     /// \brief Operations on cards
@@ -41,6 +49,7 @@ public:
     /////
 
 private:
+    std::stack<Trigger> triggers_stack_;
     std::vector<Player> players_;
     std::vector<std::unique_ptr<Card>> cards_;
     Turn turn_;
