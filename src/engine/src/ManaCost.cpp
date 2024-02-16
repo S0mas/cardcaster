@@ -47,6 +47,31 @@ void ManaCost::setColorlessCost(const int count)
     setColorCost(Color::COLORLESS, count);
 }
 
+void ManaCost::setPhyrexianWhiteCost(int count)
+{
+    setColorCost(Color::PHYREXIAN_WHITE, count);
+}
+
+void ManaCost::setPhyrexianRedCost(int count)
+{
+    setColorCost(Color::PHYREXIAN_RED, count);
+}
+
+void ManaCost::setPhyrexianBlueCost(int count)
+{
+    setColorCost(Color::PHYREXIAN_BLUE, count);
+}
+
+void ManaCost::setPhyrexianBlackCost(int count)
+{
+    setColorCost(Color::PHYREXIAN_BLACK, count);
+}
+
+void ManaCost::setPhyrexianGreenCost(int count)
+{
+    setColorCost(Color::PHYREXIAN_GREEN, count);
+}
+
 void ManaCost::setColorCost(const Color color, const int count)
 {
     colors_costs_.at(color) = count;
@@ -66,6 +91,6 @@ std::vector<Color> ManaCost::color() const
 
     std::vector<Color> colors;
     std::ranges::copy_if(std::vector<Color>{Color::WHITE, Color::GREEN, Color::RED, Color::BLUE, Color::BLACK}, std::back_inserter(colors), check_color);
-
+    //TO FIX LATER What about phyrexian mana costs, Color::WHITE || Color::PHYREXIAN_WHITE?
     return colors;
 }

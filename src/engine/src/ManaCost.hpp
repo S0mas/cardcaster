@@ -16,6 +16,11 @@ public:
     void setGreenCost(int count);
     void setGenericCost(int count);
     void setColorlessCost(int count);
+    void setPhyrexianWhiteCost(int count);
+    void setPhyrexianRedCost(int count);
+    void setPhyrexianBlueCost(int count);
+    void setPhyrexianBlackCost(int count);
+    void setPhyrexianGreenCost(int count);
     void setColorCost(Color color, int count);
 
     int colorCost(Color color) const;
